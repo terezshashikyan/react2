@@ -10,7 +10,7 @@ const Input: React.FC<IInputProps> = ({
   disabled,
   onChange,
 }) => (
-    <div className={styles.wrapper}>
+  <div className={styles.wrapper}>
     <input
       type={type}
       id={label}
@@ -20,7 +20,7 @@ const Input: React.FC<IInputProps> = ({
       className={styles.wrapper__input}
       placeholder={placeholder}
     />
-    </div>
+  </div>
 );
 
 export default Input;

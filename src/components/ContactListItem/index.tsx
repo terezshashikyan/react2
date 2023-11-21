@@ -1,8 +1,9 @@
+import { FC } from 'react';
 import { IContactListItem } from './types';
 import styles from './ContactListItem.module.scss';
 
-const ContactListItem = ({contactName}:IContactListItem) => (
-    <div className={styles.wrapper}>
+const ContactListItem:FC<IContactListItem> = ({contactName, openContactPage}) => (
+    <div className={styles.wrapper} onClick = {openContactPage}>
         <p className={styles.firstLetter}>{contactName.charAt(0)}</p>
         <p className={styles.name}>{contactName}</p>
     </div>

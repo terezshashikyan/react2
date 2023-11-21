@@ -1,0 +1,11 @@
+@import '../../styles/vars.scss';
+
+.wrapper {
+    &__img {
+    width: 120px;
+    height: 120px;
+    padding: $padding;
+    border-radius: 50%;
+    border: 2px solid $secondary-color;
+}
+};

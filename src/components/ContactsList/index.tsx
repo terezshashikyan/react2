@@ -1,9 +1,10 @@
 import { IContactsProp } from "./types";
 
 import ContactListItem from "../ContactListItem";
+
 import styles from "./ContactsList.module.scss";
 
-const ContactsList: React.FC<IContactsProp> = ({ contacts }) => {
+const ContactsList: React.FC<IContactsProp> = ({ contacts, openContactPage }) => {
   const contactsRenderer = contacts
     .map((contact) => contact.name)
     .sort()
@@ -14,18 +15,18 @@ const ContactsList: React.FC<IContactsProp> = ({ contacts }) => {
             <p className= {styles.alphGroupName}>
               {contact.charAt(0)}
             </p>
-            <ContactListItem contactName={contact} />
+            <ContactListItem contactName={contact} openContactPage={openContactPage}/>
           </>
         );
       } else if (arr[i - 1].charAt(0) !== contact.charAt(0)) {
         return (
           <>
             <p className={styles.alphGroupName}>{contact.charAt(0)}</p>
-            <ContactListItem contactName={contact} />
+            <ContactListItem contactName={contact} openContactPage={openContactPage}/>
           </>
         );
       } else {
-        return <ContactListItem contactName={contact} />;
+        return <ContactListItem contactName={contact} openContactPage={openContactPage}/>;
       }
     });
 

@@ -16,6 +16,13 @@ $secondary-color: #8A8A8D;
     justify-content: start;
 }
 
+%flex-center-center {
+    gap: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 %base-font-size {
     font-size: 18px;
     font-weight: 400;
@@ -24,8 +31,9 @@ $secondary-color: #8A8A8D;
 }
 
 %button-font-size {
-    font-size: 24px;
-    font-weight: 500;
+    color:#2196f3;
+    font-size: 18px;
+    font-weight: 600;
     line-height: 18px; 
     font-family: Roboto;
 }

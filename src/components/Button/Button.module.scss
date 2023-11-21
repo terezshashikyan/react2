@@ -1,10 +1,13 @@
 @import '../../styles/vars.scss';
 
 .button {
-    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    padding: $padding;
     border-radius: 4px;
-    color: $primary-color;
     @extend %button-font-size;
     background-color: transparent;
-    border: 1px solid $primary-color;
 }  
+.button:hover  {
+    color: $secondary-color;
+}

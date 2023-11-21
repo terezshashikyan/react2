@@ -1,5 +1,4 @@
 import { IContactsProp } from "./types";
-
 import ContactListItem from "../ContactListItem";
 
 import styles from "./ContactsList.module.scss";

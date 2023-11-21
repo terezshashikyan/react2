@@ -10,13 +10,15 @@ const Home: FC<IHomePageProps> = ({
   handleContactsChange,
   contacts,
 }) => {
+  
   const [searchInput, setSearchInput] = useState("");
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
 
-  useEffect(() => handleContactsChange(searchInput), [searchInput]);
+
+  useEffect(() => handleContactsChange(searchInput),  [searchInput])
 
   return (
     <section className={styles.wrapper}>
@@ -37,6 +39,7 @@ const Home: FC<IHomePageProps> = ({
         onChange={handleSearchInputChange}
         label="search"
       />
+      {contacts.map((contact)=>contact.name)}
       <ContactsList contacts={contacts} openContactPage={openContactPage} />
     </section>
   );

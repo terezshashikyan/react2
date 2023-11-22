@@ -1,24 +1,24 @@
 import { IHomePageProps } from "./types";
+import { useNavigate } from "react-router";
 import { FC, useEffect, useState } from "react";
 import { Input, Button, Heading, ContactsList } from "../../components";
 
 import styles from "./Home.module.scss";
 
-const Home: FC<IHomePageProps> = ({
-  openAddContactPage,
-  openContactPage,
-  handleContactsChange,
-  contacts,
-}) => {
-  
+const Home: FC<IHomePageProps> = ({ handleContactsChange, contacts }) => {
   const [searchInput, setSearchInput] = useState("");
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
 
+  useEffect(() => handleContactsChange(searchInput), [searchInput]);
 
-  useEffect(() => handleContactsChange(searchInput),  [searchInput])
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate("/add");
+  };
 
   return (
     <section className={styles.wrapper}>
@@ -26,7 +26,7 @@ const Home: FC<IHomePageProps> = ({
         <Heading children="Contacts" />
         <Button
           type="button"
-          onClick={openAddContactPage}
+          onClick={handleNavigation}
           children="+"
           className={styles.button}
           disabled={false}
@@ -39,8 +39,7 @@ const Home: FC<IHomePageProps> = ({
         onChange={handleSearchInputChange}
         label="search"
       />
-      {contacts.map((contact)=>contact.name)}
-      <ContactsList contacts={contacts} openContactPage={openContactPage} />
+      <ContactsList contacts={contacts} />
     </section>
   );
 };

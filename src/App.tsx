@@ -4,6 +4,7 @@ import { IContact } from "./types";
 import Home from "./containers/Home";
 import AddContact from "./containers/AddContact";
 import ContactPage from "./containers/ContactPage";
+import {Routes, Route,useNavigate} from 'react-router-dom';
 
 import "./App.scss";
 
@@ -25,34 +26,41 @@ const App = () => {
     });
 };
 
-  const openAddContactPage = () => setPage(pages.addContactPage);
-  const openContactPage = () => setPage(pages.contactPage);
-  const openHomePage = () => setPage(pages.home);
+const navigate = useNavigate();
 
-  const pages = {
-    contactPage: <ContactPage />,
-    addContactPage: (
-      <AddContact
-        openHomePage={openHomePage}
-        addContact={() => console.log("hi")}
-      />
-    ),
-    home: (
-      <Home
-        openAddContactPage={openAddContactPage}
-        openContactPage={openContactPage}
-        handleContactsChange={handleContactsChng}
-        contacts={contactsList}
-      />
-    ),
-  };
+const addContact = (name: string, lastName: string, company: string, phoneNumbers: {}[], emails: {}[], selectedImage: any ) => {
+  client
+  .post("", {
+    email: emails,
+    id: Date.now(),
+    name: name+lastName,
+    image: selectedImage,
+    phoneNumbers: phoneNumbers,
+    "company": {
+      name: company,
+    }
+  }) .then((response) => {
+    setContactsList([response.data, ...contactsList]);
+    console.log(response.data);
+    navigate('/')
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+};
 
-  const [page, setPage] = useState(pages.home);
 
   return (
     <div className="wrapper">
-      {contactsList.map((contact)=>contact.name)}
-      <div className="contacts">{page}</div>
+
+      <div className="contacts">
+    <Routes>
+      <Route path = "/" element = {<Home contacts = {contactsList} handleContactsChange={handleContactsChng}/>} /> 
+      <Route path="contacts/:id" element={<ContactPage />} />
+      <Route path = "/add" element = {<AddContact addContact={addContact}/>} /> 
+      <Route path = "*" element = {<p>Not Found</p>} /> 
+    </Routes>
+    </div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
 export interface IProfileImageProps {
-    img: string;
+    img: any;
+    handleImageChange: () => void;
 }

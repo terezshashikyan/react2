@@ -1,6 +1,5 @@
 export interface IAddContactProps {
-    openHomePage: () => void;
-    addContact: (name: string, lastName: string, company: string, phoneNumbers: {}[]) => void;
+    addContact: (name: string, lastName: string, company: string, phoneNumbers: {}[], emails: {}[], selectedImage: any ) => void;
 }
 
 export interface PhoneNumberInput {

@@ -12,6 +12,7 @@
     object-fit: cover;
     padding: $padding;
     border-radius: 50%;
+    @extend %flex-center-center;
     border: 2px solid $secondary-color;
 }
 

@@ -1,6 +1,7 @@
 @import '../../styles/vars.scss';
 
 .wrapper {
+    @extend %flex-center-center;
     &__img {
     width: 120px;
     height: 120px;
@@ -8,6 +9,7 @@
     object-fit: cover;
     padding: $padding;
     border-radius: 50%;
+    @extend %flex-center-center;
     border: 2px solid $secondary-color;
 }
 };

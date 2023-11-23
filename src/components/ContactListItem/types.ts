@@ -1,3 +1,5 @@
+import { IContact } from "../../types";
+
 export interface IContactListItem {
-    contactName: string,
+    contact: IContact,
 };

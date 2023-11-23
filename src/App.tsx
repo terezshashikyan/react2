@@ -82,11 +82,11 @@ const App = () => {
   const editContact = (
     id: string,
     name: string,
-    lastName: string,
     company: string,
-    phoneNumbers: [string],
-    emails: [string],
-    selectedImage: any
+    lastName: string,
+    selectedImage: any,
+    emails: [string] | [],
+    phoneNumbers: [string] | [],
   ) => {
     const editedContacts = contactsList.map((contact) => {
       if (contact.id === id) {

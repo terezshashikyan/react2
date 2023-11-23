@@ -9,7 +9,8 @@ import { IContact } from "../../types";
 
 const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
   const { id } = useParams();
-  const [contact, setContact] = useState<IContact | null>(null);
+  const [contact, setContact] = useState<IContact>(()=>contacts.filter((contact: IContact) => contact.id.toString() === id)[0]
+  );
   const [company, setCompany] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");

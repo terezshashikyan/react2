@@ -3,7 +3,7 @@ export interface IContact {
   name: string;
   username?: string;
   image?: string;
-  email?:[string] | [];
+  email?:[{id: number; value: string}] | [];
   address?: {
     street?: string;
     suite?: string;
@@ -14,7 +14,7 @@ export interface IContact {
       lng?: number;
     };
   };
-  phone?: [string] | [];
+  phone?: [{id: number; value: string}] | [];
   website?: string;
   company?: {
     name?: string;

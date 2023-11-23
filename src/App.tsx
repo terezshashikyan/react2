@@ -22,7 +22,7 @@ const App = () => {
     client.get(`?_limit=100`).then((response) => {
       setContactsList(
         response.data.map((contact: IContact) => {
-          return { ...contact, phone: [contact.phone], email: [contact.email] };
+          return { ...contact, phone: [{id: Date.now(), value: contact.phone}], email: [{id: Date.now(), value: contact.email}] };
         })
       );
     });
@@ -44,8 +44,8 @@ const App = () => {
     name: string,
     lastName: string,
     company: string,
-    phoneNumbers: {}[],
-    emails: {}[],
+    phoneNumbers: {'id': number, value: string}[] | [],
+    emails: {'id': number, value: string}[] | [],
     selectedImage: any
   ) => {
     client

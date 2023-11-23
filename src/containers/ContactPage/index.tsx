@@ -87,7 +87,7 @@ const onTelephoneClick = () => {
             <Button
               type="button"
               onClick={()=> onTelephoneClick()}
-              children={contact.phone[0]}
+              children={contact.phone[0].value}
               className={styles.button}
               disabled={false}
             />
@@ -100,7 +100,7 @@ const onTelephoneClick = () => {
             <Button
               type="button"
               onClick={() => onMailClick()}
-              children={contact.email[0]}
+              children={contact.email[0].value}
               className={styles.button}
               disabled={false}
             />

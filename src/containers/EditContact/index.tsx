@@ -11,14 +11,6 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
   const { id } = useParams();
   const [contact, setContact] = useState<IContact>(()=>contacts.filter((contact: IContact) => contact.id.toString() === id)[0]
   );
-  const [company, setCompany] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [emails, setEmails] = useState<PhoneNumberInput[]>([]);
-  const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumberInput[]>([]);
-  const [selectedImage, setSelectedImage] = useState<
-    File | Blob | MediaSource | string
-  >(icon);
 
   useEffect(
     () => {
@@ -28,6 +20,15 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
     },
     []
   );
+
+  const [company, setCompany] = useState(contact?.company? contact.company.name :'');
+  const [lastName, setLastName] = useState(contact?.lastName ? contact.lastName :'');
+  const [firstName, setFirstName] = useState("");
+  const [emails, setEmails] = useState<PhoneNumberInput[]>([]);
+  const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumberInput[]>([]);
+  const [selectedImage, setSelectedImage] = useState<
+    File | Blob | MediaSource | string
+  >(icon);
   
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files?.length !== 0) {

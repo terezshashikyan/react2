@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from "react";
+import { IContact } from "../../types";
 import { icon } from "../../assets/images";
+import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { IEditContactProps, PhoneNumberInput} from "./types";
 import { Input, Button, Heading, ProfileImageUploader } from "../../components";
 
 import styles from './EditContact.module.scss';
-import { IContact } from "../../types";
 
 const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
   const { id } = useParams();
@@ -21,14 +21,14 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
     []
   );
 
-  const [company, setCompany] = useState(contact?.company? contact.company.name :'');
-  const [lastName, setLastName] = useState(contact?.lastName ? contact.lastName :'');
-  const [firstName, setFirstName] = useState("");
-  const [emails, setEmails] = useState<PhoneNumberInput[]>([]);
-  const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumberInput[]>([]);
+  const [company, setCompany] = useState(contact?.company?.name ? contact.company.name :'');
+  const [lastName, setLastName] = useState(contact?.name ? contact.name :'');
+  const [firstName, setFirstName] = useState(contact?.name ? contact.name :'');
+  const [emails, setEmails] = useState<PhoneNumberInput[]>(contact?.email ? contact.email :[]);
+  const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumberInput[]>(contact?.phone ? contact.phone :[]);
   const [selectedImage, setSelectedImage] = useState<
     File | Blob | MediaSource | string
-  >(icon);
+  >(contact?.image ? contact.image : icon);
   
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files?.length !== 0) {
@@ -86,7 +86,7 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
   const navigate = useNavigate();
 
   const handleNavigation = () => {
-    navigate("/");
+    navigate(`/${id}`);
   };
 
   return (
@@ -104,7 +104,7 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
 
         <Button
           type="button"
-          onClick={() => editContact(contact.id, firstName, lastName, company, phoneNumbers, emails, selectedImage )}
+          onClick={() => {editContact(contact.id, firstName, lastName, company, phoneNumbers, emails, selectedImage ); handleNavigation()}}
           children="Done"
           className={styles.button}
           disabled={false}

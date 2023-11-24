@@ -85,25 +85,25 @@ const App = () => {
     company: string,
     lastName: string,
     selectedImage: any,
-    emails: [string] | [],
-    phoneNumbers: [string] | [],
+    emails: {id: number, value: string}[] | [],
+    phoneNumbers: {id: number, value: string}[] | [],
   ) => {
     const editedContacts = contactsList.map((contact) => {
       if (contact.id === id) {
-        return {
+        return ({
+          name: `${name} ${lastName}`,
           id: contact.id,
           emails: emails,
           phone: phoneNumbers,
           image: selectedImage,
-          name: `${name} ${lastName}`,
           'company': {
-            name: company
+            name: company,
           }
-        };
+        });
       }
       return contact;
     });
-
+  
     setContactsList(editedContacts);
   };
 

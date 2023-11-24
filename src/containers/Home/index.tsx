@@ -12,7 +12,7 @@ const Home: FC<IHomePageProps> = ({ handleContactsChange, contacts }) => {
     setSearchInput(e.target.value);
   };
 
-  useEffect(() => handleContactsChange(searchInput), [searchInput]);
+  useEffect(() => handleContactsChange(searchInput), [searchInput, contacts]);
 
   const navigate = useNavigate();
 

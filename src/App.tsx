@@ -13,39 +13,42 @@ import "./App.scss";
 const App = () => {
   const navigate = useNavigate();
   const [contactsList, setContactsList] = useState<IContact[] | []>([]);
+  const [contactsFilteredList, setContactsFilteredList] = useState<
+    IContact[] | []
+  >(contactsList);
 
   const client = axios.create({
     baseURL: "https://jsonplaceholder.typicode.com/users",
   });
 
   useEffect(() => {
-    client.get(`?_limit=100`).then((response) => {
+    client.get(``).then((response) => {
       setContactsList(
         response.data.map((contact: IContact) => {
-          return { ...contact, phone: [{id: Date.now(), value: contact.phone}], email: [{id: Date.now(), value: contact.email}] };
+          return {
+            ...contact,
+            phone: [{ id: Date.now(), value: contact.phone }],
+            email: [{ id: Date.now(), value: contact.email }],
+          };
         })
       );
     });
   }, []);
 
   const handleContactsChng = (searchInp: string) => {
-    if (searchInp.length !== 0) {
-      client.get(`?_limit=100`).then((response) => {
-        setContactsList(
-          response.data.filter((contact: IContact) =>
-            contact.name.toLowerCase().includes(searchInp.toLowerCase())
-          )
-        );
-      });
-    }
+    setContactsFilteredList(
+      contactsList.filter((contact: IContact) =>
+        contact.name.toLowerCase().includes(searchInp.toLowerCase())
+      )
+    );
   };
 
   const addContact = (
     name: string,
     lastName: string,
     company: string,
-    phoneNumbers: {'id': number, value: string}[] | [],
-    emails: {'id': number, value: string}[] | [],
+    phoneNumbers: { id: number; value: string }[] | [],
+    emails: { id: number; value: string }[] | [],
     selectedImage: any
   ) => {
     client
@@ -54,7 +57,7 @@ const App = () => {
         id: Date.now(),
         name: `${name} ${lastName}`,
         image: selectedImage,
-        phoneNumbers: phoneNumbers,
+        phone: phoneNumbers,
         company: {
           name: company,
         },
@@ -82,28 +85,29 @@ const App = () => {
   const editContact = (
     id: string,
     name: string,
-    company: string,
     lastName: string,
-    selectedImage: any,
-    emails: {id: number, value: string}[] | [],
-    phoneNumbers: {id: number, value: string}[] | [],
+    company: string,
+    phoneNumbers: { id: number; value: string }[] | [],
+    emails: { id: number; value: string }[] | [],
+    selectedImage: any
   ) => {
     const editedContacts = contactsList.map((contact) => {
       if (contact.id === id) {
-        return ({
+        return {
+          ...contact,
           name: `${name} ${lastName}`,
           id: contact.id,
-          emails: emails,
+          email: emails,
           phone: phoneNumbers,
           image: selectedImage,
-          'company': {
+          company: {
             name: company,
-          }
-        });
+          },
+        };
       }
       return contact;
     });
-  
+
     setContactsList(editedContacts);
   };
 
@@ -115,7 +119,7 @@ const App = () => {
             path="/"
             element={
               <Home
-                contacts={contactsList}
+                contacts={contactsFilteredList}
                 handleContactsChange={handleContactsChng}
               />
             }
@@ -127,7 +131,13 @@ const App = () => {
           <Route path="/add" element={<AddContact addContact={addContact} />} />
           <Route
             path="/:id/edit"
-            element = {<EditContact editContact = {editContact} deleteContact={deleteContact} contacts = {contactsList}/>}
+            element={
+              <EditContact
+                editContact={editContact}
+                deleteContact={deleteContact}
+                contacts={contactsList}
+              />
+            }
           />
           <Route path="*" element={<p>Not Found</p>} />
         </Routes>

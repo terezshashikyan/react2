@@ -3,13 +3,19 @@
 .wrapper {
     @extend %flex-center-center;
     &__img {
-    width: 120px;
-    height: 120px;
     display: block;
     object-fit: cover;
-    padding: $padding;
     border-radius: 50%;
     @extend %flex-center-center;
     border: 2px solid $secondary-color;
 }
 };
+
+.small {
+    width: 20px;
+    height: 20px; 
+}
+.large {
+    width: 120px;
+    height: 120px; 
+}

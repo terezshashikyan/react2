@@ -1,35 +1,48 @@
 import { IContact } from "../../types";
 import { icon } from "../../assets/images";
+import { IEditContactProps } from "./types";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { IEditContactProps, PhoneNumberInput} from "./types";
 import { Input, Button, Heading, ProfileImageUploader } from "../../components";
 
-import styles from './EditContact.module.scss';
+import styles from "./EditContact.module.scss";
 
-const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
+const EditContact: FC<IEditContactProps> = ({
+  editContact,
+  deleteContact,
+  contacts,
+}) => {
   const { id } = useParams();
-  const [contact, setContact] = useState<IContact>(()=>contacts.filter((contact: IContact) => contact.id.toString() === id)[0]
+  const [contact, setContact] = useState<IContact>(
+    () =>
+      contacts.filter((contact: IContact) => contact.id.toString() === id)[0]
   );
 
-  useEffect(
-    () => {
-      setContact(
-        contacts.filter((contact: IContact) => contact.id.toString() === id)[0]
-      );
-    },
-    []
-  );
+  useEffect(() => {
+    setContact(
+      contacts.filter((contact: IContact) => contact.id.toString() === id)[0]
+    );
+  }, []);
 
-  const [company, setCompany] = useState(contact?.company?.name ? contact.company.name :'');
-  const [lastName, setLastName] = useState(contact?.name ? contact.name :'');
-  const [firstName, setFirstName] = useState(contact?.name ? contact.name :'');
-  const [emails, setEmails] = useState<PhoneNumberInput[]>(contact?.email ? contact.email :[]);
-  const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumberInput[]>(contact?.phone ? contact.phone :[]);
+  const [company, setCompany] = useState(
+    contact?.company?.name ? contact.company.name : ""
+  );
+  const [phoneNumbers, setPhoneNumbers] = useState<
+    { id: number; value: string }[] | []
+  >(contact?.phone ? contact.phone : []);
+  const [lastName, setLastName] = useState(
+    contact?.name ? contact.name.split(" ")[1] : ""
+  );
+  const [firstName, setFirstName] = useState(
+    contact?.name ? contact.name.split(" ")[0] : ""
+  );
+  const [emails, setEmails] = useState<{ id: number; value: string }[] | []>(
+    contact?.email ? contact.email : []
+  );
   const [selectedImage, setSelectedImage] = useState<
     File | Blob | MediaSource | string
   >(contact?.image ? contact.image : icon);
-  
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files?.length !== 0) {
       setSelectedImage(URL.createObjectURL(e.target.files[0]));
@@ -61,10 +74,10 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
   };
 
   const deleteEmailInput = (id: number) => {
-    const newEmails = emails.filter((email) => email.id !== id)
+    const newEmails = emails.filter((email) => email.id !== id);
     setEmails(newEmails);
   };
-  
+
   const handlePhoneNumberChange = (id: number, value: string) => {
     const updatedPhoneNumbers = phoneNumbers.map((phoneNumber) =>
       phoneNumber.id === id ? { ...phoneNumber, value } : phoneNumber
@@ -78,10 +91,11 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
   };
 
   const deletePhoneNumberInput = (id: number) => {
-    const newPhoneNumbers = phoneNumbers.filter((phoneNumber) => phoneNumber.id !== id)
+    const newPhoneNumbers = phoneNumbers.filter(
+      (phoneNumber) => phoneNumber.id !== id
+    );
     setPhoneNumbers(newPhoneNumbers);
   };
-
 
   const navigate = useNavigate();
 
@@ -91,7 +105,7 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
 
   return (
     <section className={styles.wrapper}>
-      <Heading children="New Contact" />
+      <Heading children="Edit Contact" />
 
       <div className={styles.wrapper__firstSection}>
         <Button
@@ -104,7 +118,18 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
 
         <Button
           type="button"
-          onClick={() => {editContact(contact.id, firstName, lastName, company, phoneNumbers, emails, selectedImage ); handleNavigation()}}
+          onClick={() => {
+            editContact(
+              contact.id,
+              firstName,
+              lastName,
+              company,
+              phoneNumbers,
+              emails,
+              selectedImage
+            );
+            handleNavigation();
+          }}
           children="Done"
           className={styles.button}
           disabled={false}
@@ -116,51 +141,51 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
         handleImageChange={handleImageChange}
       />
       <div className={styles.wrapper__inputs}>
-      <Input
-        type="text"
-        placeholder="First Name"
-        value={firstName}
-        onChange={handleFirstNameChange}
-        label="first name"
-      />
+        <Input
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={handleFirstNameChange}
+          label="first name"
+        />
 
-      <Input
-        type="text"
-        placeholder="Last Name"
-        value={lastName}
-        onChange={handleLastNameChange}
-        label="last name"
-      />
+        <Input
+          type="text"
+          placeholder="Last Name"
+          value={lastName}
+          onChange={handleLastNameChange}
+          label="last name"
+        />
 
-      <Input
-        type="text"
-        placeholder="Company"
-        value={company}
-        onChange={handleCompanyChange}
-        label="company"
-      />
+        <Input
+          type="text"
+          placeholder="Company"
+          value={company}
+          onChange={handleCompanyChange}
+          label="company"
+        />
       </div>
 
       <div className={styles.wrapper__phoneNumbers}>
         {phoneNumbers.map((phoneNumber) => (
-        <div className={styles.wrapper__phoneNumbers__inputHolder}>
-          <Input
-            type="text"
-            placeholder="Phone Number"
-            value={phoneNumber.value}
-            onChange={(e) =>
-              handlePhoneNumberChange(phoneNumber.id, e.target.value)
-            }
-            label="company"
-          />
-          <Button
-          type="button"
-          onClick={()=>deletePhoneNumberInput(phoneNumber.id)}
-          children="x"
-          className={styles.button}
-          disabled={false}
-        />
-        </div>
+          <div className={styles.wrapper__phoneNumbers__inputHolder}>
+            <Input
+              type="text"
+              placeholder="Phone Number"
+              value={phoneNumber.value}
+              onChange={(e) =>
+                handlePhoneNumberChange(phoneNumber.id, e.target.value)
+              }
+              label="phone number"
+            />
+            <Button
+              type="button"
+              onClick={() => deletePhoneNumberInput(phoneNumber.id)}
+              children="x"
+              className={styles.button}
+              disabled={false}
+            />
+          </div>
         ))}
         <Button
           type="button"
@@ -174,21 +199,21 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
       <div className={styles.wrapper__emails}>
         {emails.map((email) => (
           <div className={styles.wrapper__emails__inputHolder}>
-          <Input
-            type="text"
-            placeholder="Email"
-            value={email.value}
-            onChange={(e) => handleEmailChange(email.id, e.target.value)}
-            label="company"
-          />
-          <Button
-          type="button"
-          onClick={()=>deleteEmailInput(email.id)}
-          children="x"
-          className={styles.button}
-          disabled={false}
-        />
-        </div>
+            <Input
+              type="text"
+              placeholder="Email"
+              value={email.value}
+              onChange={(e) => handleEmailChange(email.id, e.target.value)}
+              label="email"
+            />
+            <Button
+              type="button"
+              onClick={() => deleteEmailInput(email.id)}
+              children="x"
+              className={styles.button}
+              disabled={false}
+            />
+          </div>
         ))}
         <Button
           type="button"
@@ -198,6 +223,16 @@ const EditContact: FC<IEditContactProps> = ({ editContact, contacts }) => {
           disabled={false}
         />
       </div>
+      <Button
+        type="button"
+        onClick={() => {
+          deleteContact(contact.id);
+          navigate("/");
+        }}
+        children="x"
+        className={styles.button}
+        disabled={false}
+      />
     </section>
   );
 };

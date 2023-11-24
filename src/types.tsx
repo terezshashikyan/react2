@@ -17,7 +17,7 @@ export interface IContact {
   phone?: {id: number; value: string}[] | [];
   website?: string;
   company?: {
-    name?: string;
+    'name'?: string;
     catchPhrase?: string;
     bs?: string;
   };

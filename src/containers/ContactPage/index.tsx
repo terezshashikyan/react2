@@ -13,27 +13,23 @@ const ContactPage: FC<IContactPageProps> = ({ contacts }) => {
   const navigate = useNavigate();
   const [contact, setContact] = useState<IContact | null>(null);
 
-  useEffect(
-    () => {
-      setContact(
-        contacts.filter((contact: IContact) => contact.id.toString() === id)[0]
-      );
-    },
-    []
-  );
+  useEffect(() => {
+    setContact(
+      contacts.filter((contact: IContact) => contact.id.toString() === id)[0]
+    );
+  }, []);
 
- const onMailClick = () => {
-  if(contact?.email) {
-    window.location.href = `mailto:${contact.email}`
-  }
-};
+  const onMailClick = () => {
+    if (contact?.email) {
+      window.location.href = `mailto:${contact.email}`;
+    }
+  };
 
-const onTelephoneClick = () => {
-  if(contact?.phone) {
-    window.open(`tel:${contact.phone[0]}`)
-  }
-};
-
+  const onTelephoneClick = () => {
+    if (contact?.phone) {
+      window.open(`tel:${contact.phone[0]}`);
+    }
+  };
 
   return (
     <section className={styles.wrapper}>
@@ -55,13 +51,20 @@ const onTelephoneClick = () => {
       </div>
 
       <div className={styles.wrapper__sectionSecond}>
-        <ProfileImage img = {contact?.image || icon} />
+        <ProfileImage img={contact?.image || icon} size= 'large' alt = 'img'/>
         <Heading children={contact?.name || ""} />
         <section className={styles.wrapper__sectionSecond__buttons}>
           <div className={styles.wrapper__sectionSecond__buttons__button}>
-            <CallRounded color="primary" fontSize="large" onClick = {()=> onTelephoneClick()}/>
+            <CallRounded
+              color="primary"
+              fontSize="large"
+              onClick={() => onTelephoneClick()}
+            />
           </div>
-          <div className={styles.wrapper__sectionSecond__buttons__button} onClick = {() => onMailClick()}>
+          <div
+            className={styles.wrapper__sectionSecond__buttons__button}
+            onClick={() => onMailClick()}
+          >
             <MailOutlineRounded color="primary" fontSize="large" />
           </div>
         </section>
@@ -70,10 +73,10 @@ const onTelephoneClick = () => {
       <div className={styles.wrapper__sectionThird}>
         {contact?.company?.name ? (
           <div className={styles.wrapper__sectionThird__item}>
-            <Paragraph children= "Company" />
+            <Paragraph children="Company" />
             <Button
               type="button"
-              onClick={() => console.log("hi")}
+              onClick={() => window.open('https://google.com/')}
               children={contact?.company?.name}
               className={styles.button}
               disabled={false}
@@ -86,7 +89,7 @@ const onTelephoneClick = () => {
             {<Paragraph children="Phone Number" />}
             <Button
               type="button"
-              onClick={()=> onTelephoneClick()}
+              onClick={() => onTelephoneClick()}
               children={contact.phone[0].value}
               className={styles.button}
               disabled={false}

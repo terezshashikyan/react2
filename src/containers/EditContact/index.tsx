@@ -229,7 +229,7 @@ const EditContact: FC<IEditContactProps> = ({
           deleteContact(contact.id);
           navigate("/");
         }}
-        children="x"
+        children="Delete Contact"
         className={styles.button}
         disabled={false}
       />
